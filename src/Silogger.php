@@ -23,16 +23,46 @@ class Silogger
     const DEBUG     = 'debug';
 
     /**
-     * Log levels colors.
+     * Set of created Logs.
      *
-     * @var string
+     * @var Log[]
      */
-    const EMERGENCY_COLOR = '1;33;41';
-    const ALERT_COLOR     = '1;37;41';
-    const CRITICAL_COLOR  = '0;30;41';
-    const ERROR_COLOR     = '0;31;43';
-    const WARNING_COLOR   = '0;30;43';
-    const NOTICE_COLOR    = '1;37;45';
-    const INFO_COLOR      = '0;32;40';
-    const DEBUG_COLOR     = '1;37;40';
+    private static $logs = [];
+
+    /**
+     * Delivers Log of given name to add messages.
+     *
+     * @param string $name Optional. Name of Log. If not given - default Log is delivered.
+     *
+     * @since  v1.0
+     * @return Log
+     */
+    public static function get(string $name = 'default') : Log
+    {
+
+        // Create if not exists.
+        if (isset(self::$logs[$name]) === false) {
+            self::$logs[$name] = new Log($name);
+        }
+
+        return self::$logs[$name];
+    }
+
+    /**
+     * Declare new Log (mainly by configuration at startup).
+     *
+     * @param string $name       Name of Log.
+     * @param array  $definition Definition of Log.
+     *
+     * @since  v1.0
+     * @return Log
+     */
+    public static function declare(string $name, array $definition) : Log
+    {
+
+        $log = self::get($name);
+        $log->setDefinition($definition);
+
+        return $log;
+    }
 }
