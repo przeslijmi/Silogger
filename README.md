@@ -67,10 +67,10 @@ Silogger::declare(
 ## Formats
 
 ### Formats with one letter
-These are all taken from [https://www.php.net/manual/en/function.date.php] function format.
+These are all taken from https://www.php.net/manual/en/function.date.php function format.
 
 ### Other formats
-- [ip] IP of caller
-- [lvl] Level (lowercased)
-- [LVL] Level (uppercased)
-- [msg] Log message contents
+- `[ip]` IP of caller
+- `[lvl]` Level (lowercased)
+- `[LVL]` Level (uppercased)
+- `[msg]` Log message contents
