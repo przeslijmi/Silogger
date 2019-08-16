@@ -150,7 +150,7 @@ class Log extends Definition
      *
      * @phpcs:disable Generic.NamingConventions.ConstructorName.OldStyle
      */
-    public function log(string $level, $message, array $context) : void
+    public function log(string $level, $message, array $context = []) : void
     {
 
         // Ingore context.
@@ -158,7 +158,7 @@ class Log extends Definition
 
         // Convert message to final string.
         if (is_scalar($message) === false
-            && ( is_object($message) === true && method_exists($message, '__toString') === true )
+            && ( is_object($message) === true && method_exists($message, '__toString') === false )
         ) {
             $message = 'Err: Sent message can not be converted to string.';
         } else {

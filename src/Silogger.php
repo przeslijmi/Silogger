@@ -13,6 +13,16 @@ class Silogger
      *
      * @var string
      */
+    const ALL       = [
+        'EMERGENCY',
+        'ALERT',
+        'CRITICAL',
+        'ERROR',
+        'WARNING',
+        'NOTICE',
+        'INFO',
+        'DEBUG',
+    ];
     const EMERGENCY = 'emergency';
     const ALERT     = 'alert';
     const CRITICAL  = 'critical';

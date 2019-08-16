@@ -69,6 +69,18 @@ abstract class Definition
     }
 
     /**
+     * Getter for definition of Log.
+     *
+     * @since  v1.0
+     * @return array
+     */
+    public function getDefinition() : array
+    {
+
+        return $this->definition;
+    }
+
+    /**
      * Checks if this message in this log should be sent to Cli.
      *
      * Returns array with CLI definition for this log - or null.
