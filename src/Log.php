@@ -153,8 +153,8 @@ class Log extends Definition
     public function log(string $level, $message, array $context = []) : void
     {
 
-        // Ingore context.
-        unset($context);
+        // Lvd.
+        $contextHash = null;
 
         // Convert message to final string.
         if (is_scalar($message) === false
@@ -165,12 +165,17 @@ class Log extends Definition
             $message = (string) $message;
         }
 
+        // Define context.
+        if (empty($context) === false) {
+            $contextHash = (string) crc32(microtime() . print_r($context, true));
+        }
+
         // Check usages.
         if ($this->isFor('cli', $level) !== null) {
-            new CliUsage($this, $level, $message);
+            new CliUsage($this, $level, $message, $context, $contextHash);
         }
         if ($this->isFor('file', $level) !== null) {
-            new FileUsage($this, $level, $message);
+            new FileUsage($this, $level, $message, $context, $contextHash);
         }
     }
 }

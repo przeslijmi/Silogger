@@ -21,8 +21,8 @@ class CliUsage extends Usage
     const CRITICAL_COLOR  = '0;30;41';
     const ERROR_COLOR     = '0;31;43';
     const WARNING_COLOR   = '0;30;43';
-    const NOTICE_COLOR    = '1;37;45';
-    const INFO_COLOR      = '0;32;40';
+    const NOTICE_COLOR    = '1;34;40';
+    const INFO_COLOR      = '1;32;40';
     const DEBUG_COLOR     = '1;37;40';
 
     /**
@@ -41,6 +41,7 @@ class CliUsage extends Usage
         $showLog  = "\e[" . $color . 'm';
         $showLog .= 'LOG[' . $this->log->getName() . '] ' . $this->level . ': ';
         $showLog .= $this->message;
+        $showLog .= (( $this->contextHash === null ) ? '' : ' [ref:' . $this->contextHash . ']');
         $showLog .= "\e[0m";
         $showLog .= PHP_EOL;
 

@@ -31,6 +31,11 @@ class FileUsage extends Usage
             $msg .= 'log config for logger >>' . $this->log->getName() . '<<.';
             throw new Exception($msg);
         }
+        if (isset($options['uriRef']) === false || empty($options['uriRef']) === true) {
+            $msg  = 'FileUsage for Ref is impossible because no file URI Ref is given in ';
+            $msg .= 'log config for logger >>' . $this->log->getName() . '<<.';
+            throw new Exception($msg);
+        }
         if (isset($options['format']) === false || empty($options['format']) === true) {
             $msg  = 'FileUsage is impossible because no message format is given in ';
             $msg .= 'log config for logger >>' . $this->log->getName() . '<<.';
@@ -39,11 +44,30 @@ class FileUsage extends Usage
 
         // Format.
         $fileUri = $this->format($options['uri']);
-        $message = $this->format(trim($options['format']) . PHP_EOL);
+        $message = $this->format(trim($options['format']));
+
+        // Save ref file.
+        if ($this->contextHash !== null) {
+
+            // Format.
+            $fileRefUri = $this->format($options['uriRef']);
+
+            // Add context hash (as ref) to message.
+            $message .= ' [ref:' . $this->contextHash . ']';
+
+            // Lvd.
+            $fileRefUri  = $this->format($options['uriRef']);
+            $messageFull = $message . "\n\n" . var_export($this->context, true);
+
+            // Save file.
+            $file = fopen($fileRefUri, 'a');
+            fwrite($file, $messageFull);
+            fclose($file);
+        }
 
         // Save file.
         $file = fopen($fileUri, 'a');
-        fwrite($file, $message);
+        fwrite($file, $message . "\n");
         fclose($file);
 
         return $this;
