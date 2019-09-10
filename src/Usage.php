@@ -46,6 +46,14 @@ abstract class Usage
     protected $contextHash;
 
     /**
+     * If this is buffer log or not.
+     *
+     * @var   boolean
+     * @since v1.1
+     */
+    private $isBuffer = false;
+
+    /**
      * Common creator for usages.
      *
      * @param Log    $log     Log object.
@@ -69,9 +77,34 @@ abstract class Usage
         $this->message     = $message;
         $this->context     = $context;
         $this->contextHash = $contextHash;
+    }
 
-        // Call to start.
-        $this->use();
+    /**
+     * Setter for `isBuffer`.
+     *
+     * @param boolean $isBuffer If this is buffer log or not.
+     *
+     * @since  v1.1
+     * @return self
+     */
+    public function setIsBuffer(bool $isBuffer) : self
+    {
+
+        $this->isBuffer = $isBuffer;
+
+        return $this;
+    }
+
+    /**
+     * Getter for `isBuffer`.
+     *
+     * @since  v1.1
+     * @return boolean
+     */
+    protected function isBuffer() : bool
+    {
+
+        return $this->isBuffer;
     }
 
     /**

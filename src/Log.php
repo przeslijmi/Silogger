@@ -170,12 +170,47 @@ class Log extends Definition
             $contextHash = (string) crc32(microtime() . print_r($context, true));
         }
 
+        // Check if this is just buffered.
+        $thisIsBuffer = false;
+        if (substr($level, -6) === 'Buffer') {
+            $level        = substr($level, 0, 6);
+            $thisIsBuffer = true;
+        }
+
         // Check usages.
         if ($this->isFor('cli', $level) !== null) {
-            new CliUsage($this, $level, $message, $context, $contextHash);
+            $usage = new CliUsage($this, $level, $message, $context, $contextHash);
+            $usage->setIsBuffer($thisIsBuffer);
+            $usage->use();
         }
         if ($this->isFor('file', $level) !== null) {
-            new FileUsage($this, $level, $message, $context, $contextHash);
+            $usage = new FileUsage($this, $level, $message, $context, $contextHash);
+            $usage->setIsBuffer($thisIsBuffer);
+            $usage->use();
         }
+    }
+
+    /**
+     * Logs counter message using buffer.
+     *
+     * @param string  $level   Name of level (see Silogger doc).
+     * @param integer $current Current value of counter.
+     * @param integer $target  Final value of counter.
+     * @param string  $prefix  What prefix use before counter.
+     *
+     * @return void
+     */
+    public function logCounter(string $level, int $current, int $target, string $prefix) : void
+    {
+
+        // Count level.
+        if ($current !== $target) {
+            $level .= 'Buffer';
+        }
+
+        // Count message.
+        $message = $prefix . ': ' . $current . ' / ' . $target . '';
+
+        $this->log($level, $message);
     }
 }

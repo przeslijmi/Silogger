@@ -19,8 +19,13 @@ class FileUsage extends Usage
      * @throws Exception When file uri or message format are not defined.
      * @return self
      */
-    protected function use() : self
+    public function use() : self
     {
+
+        // Ignore buffers at all.
+        if ($this->isBuffer() === true) {
+            return $this;
+        }
 
         // Lvd.
         $options = $this->log->isFor('file', $this->level);

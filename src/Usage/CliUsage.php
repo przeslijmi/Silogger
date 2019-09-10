@@ -31,19 +31,29 @@ class CliUsage extends Usage
      * @since  v1.0
      * @return self
      */
-    protected function use() : self
+    public function use() : self
     {
 
         // Lvd.
-        $color = constant('\Przeslijmi\Silogger\Usage\CliUsage::' . strtoupper($this->level) . '_COLOR');
+        $color   = constant('\Przeslijmi\Silogger\Usage\CliUsage::' . strtoupper($this->level) . '_COLOR');
+        $showLog = '';
 
         // Define log to be showed.
-        $showLog  = "\e[" . $color . 'm';
+        $showLog .= "\e[" . $color . 'm';
         $showLog .= 'LOG[' . $this->log->getName() . '] ' . $this->level . ': ';
         $showLog .= $this->message;
         $showLog .= (( $this->contextHash === null ) ? '' : ' [ref:' . $this->contextHash . ']');
         $showLog .= "\e[0m";
-        $showLog .= PHP_EOL;
+
+        // Add new line only if this is not buffer.
+        if ($this->isBuffer() === false) {
+            $showLog .= PHP_EOL;
+        }
+
+        // Add carret comeback if this is a buffer.
+        if ($this->isBuffer() === true) {
+            $showLog .= "\r";
+        }
 
         // Show log.
         echo $showLog;

@@ -26,7 +26,28 @@ $log->debug('Hello World!');
 $log->log('info', 'Hello World!');
 ```
 
+## Counter logging
+
+Since `v1.1` it is possible to use counter logging. Counter logging sends info to log but only to buffer to make it possible to delete/change. It is used for counters.
+
+```php
+// Create/get log.
+$log = Log::get();
+
+// Direct calls to counter.
+$log->logCounter('info', 0, 100, 'proces will be finished in [%]:');
+$log->logCounter('info', 1, 100, 'proces will be finished in [%]:');
+$log->logCounter('info', 2, 100, 'proces will be finished in [%]:');
+$log->logCounter('info', 3, 100, 'proces will be finished in [%]:');
+// ...
+$log->logCounter('info', 100, 100, 'proces will be finished in [%]:');
+```
+
+In above situation progres from 0 ... 100 will be showed on CLI but in **one line**. Calls from 0 ... 99 will be ignored from FILE usage. Only final 100th call will be stored in FILE.
+
 ## Multiple loggers
+
+Multiple loggers can be used for example for database calls. While default log will get info about calling query, the contents of this query will be send only to database log which can be served and stored differently cause of personal data.
 
 ```php
 // Use first Log for some reasons.
