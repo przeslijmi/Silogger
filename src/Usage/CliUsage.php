@@ -42,7 +42,7 @@ class CliUsage extends Usage
         $showLog .= "\e[" . $color . 'm';
         $showLog .= 'LOG[' . $this->log->getName() . '] ' . $this->level . ': ';
         $showLog .= $this->message;
-        $showLog .= (( $this->contextHash === null ) ? '' : ' [ref:' . $this->contextHash . ']');
+        $showLog .= ( ( $this->contextHash === null ) ? '' : ' [ref:' . $this->contextHash . ']' );
         $showLog .= "\e[0m";
 
         // Add new line only if this is not buffer.

@@ -144,11 +144,12 @@ class Log extends Definition
      *
      * @param string $level   Name of level (see Silogger doc).
      * @param mixed  $message Message contents.
-     * @param array  $context Unused.
+     * @param array  $context Extra information to save to log.
      *
      * @return void
      *
      * @phpcs:disable Generic.NamingConventions.ConstructorName.OldStyle
+     * @phpcs:disable Squiz.PHP.DiscouragedFunctions
      */
     public function log(string $level, $message, array $context = []) : void
     {

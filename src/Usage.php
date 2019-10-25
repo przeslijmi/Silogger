@@ -56,10 +56,11 @@ abstract class Usage
     /**
      * Common creator for usages.
      *
-     * @param Log    $log     Log object.
-     * @param string $level   Level of message.
-     * @param string $message Contents of message.
-     * @param array  $context Extra array information on message.
+     * @param Log    $log         Log object.
+     * @param string $level       Level of message.
+     * @param string $message     Contents of message.
+     * @param array  $context     Optional, empty array. Extra array information on message.
+     * @param string $contextHash Optional, null. Hashed context.
      *
      * @since v1.0
      */
