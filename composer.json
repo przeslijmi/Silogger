@@ -1,5 +1,23 @@
 {
-    "name": "przeslijmi/silogger",
-    "version": "v1.2.1",
-    "type": "library"
+  "name": "przeslijmi/silogger",
+  "description": "PHP library for log (meets PSR-3).",
+  "version": "v1.2.2",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Karol Nowakowski",
+      "email": "przeslijmi@gmail.com"
+    }
+  ],
+  "require": {
+    "php" : "^7.3",
+    "przeslijmi/sexceptions": "~1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Przeslijmi\\Silogger\\": "src/",
+      "Przeslijmi\\Sexceptions\\": "../../przeslijmi/sexceptions/src/"
+    }
+  }
 }
