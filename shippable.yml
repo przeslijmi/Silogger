@@ -8,6 +8,7 @@ env:
 
 before_script:
   - cp "resources/configSpecimen.php" ".config.php"
+  - mkdir ".logs"
   - composer config -g github-oauth.github.com $GH_TOKEN
   - composer self-update -n
   - composer install --prefer-source --no-interaction
