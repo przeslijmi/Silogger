@@ -40,7 +40,7 @@ class CliUsage extends Usage
 
         // Define log to be showed.
         $showLog .= "\e[" . $color . 'm';
-        $showLog .= 'LOG[' . $this->log->getName() . '] ' . $this->level . ': ';
+        $showLog .= 'LOG[' . $this->log->getName() . '] ' . str_pad($this->level, 9, ' ', STR_PAD_RIGHT) . ': ';
         $showLog .= $this->message;
         $showLog .= ( ( $this->contextHash === null ) ? '' : ' [ref:' . $this->contextHash . ']' );
         $showLog .= "\e[0m";

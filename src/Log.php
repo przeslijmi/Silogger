@@ -174,7 +174,7 @@ class Log extends Definition
         // Check if this is just buffered.
         $thisIsBuffer = false;
         if (substr($level, -6) === 'Buffer') {
-            $level        = substr($level, 0, 6);
+            $level        = substr($level, 0, -6);
             $thisIsBuffer = true;
         }
 

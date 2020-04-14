@@ -1,13 +1,19 @@
 {
   "name": "przeslijmi/silogger",
   "description": "PHP library for log (meets PSR-3).",
-  "version": "v1.2.2",
+  "version": "v1.2.3",
   "type": "library",
   "license": "MIT",
   "authors": [
     {
       "name": "Karol Nowakowski",
       "email": "przeslijmi@gmail.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/przeslijmi/sexceptions"
     }
   ],
   "require": {

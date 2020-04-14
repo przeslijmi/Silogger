@@ -82,6 +82,35 @@ final class SiloggerTest extends TestCase
     }
 
     /**
+     * Test if declaring log with FileUsage defined badly (no uri ref) calls exceptions.
+     *
+     * @return void
+     */
+    public function testDeclaringInproperFileUsageInUriRef() : void
+    {
+
+        // Lvd.
+        $logName    = 'test' . rand(1000, 9999);
+        $definition = [
+            'file' => [
+                'uri'    => 'logs/[ip].log',
+                'uriRef' => null,
+                'format' => '[Y]-[m]-[d]-[H]-[i]-[s] [lvl]: [msg]'
+            ],
+        ];
+
+        // Declare.
+        Silogger::declare($logName, $definition);
+
+        // Test.
+        $this->expectException(Exception::class);
+
+        // Get.
+        $log = Silogger::get($logName);
+        $log->info('Test.');
+    }
+
+    /**
      * Test if declaring log with FileUsage defined badly (no format) calls exceptions.
      *
      * @return void
@@ -94,6 +123,7 @@ final class SiloggerTest extends TestCase
         $definition = [
             'file' => [
                 'uri'    => 'logs/[ip].log',
+                'uriRef' => 'logs/[ip].[ref].log',
                 'format' => null
             ],
         ];
