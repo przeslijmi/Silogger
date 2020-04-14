@@ -1,4 +1,8 @@
-# Przeslijmi Silogger
+# Przeslijmi Silogger (compliant with PSR-3)
+
+[![Run Status](https://api.shippable.com/projects/5e4da23584f5470006416c25/badge?branch=master)]()
+
+[![Coverage Badge](https://api.shippable.com/projects/5e4da23584f5470006416c25/coverageBadge?branch=master)]()
 
 Simple logging solution.
 
