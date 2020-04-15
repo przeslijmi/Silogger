@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2.4 - 2020-04-15
+
+- Updated `composer.json`.
+- Fix: log levels are now case insensitive.
+
 ## v1.2.3 - 2020-04-14
 
 - Added `shippable.yml`.

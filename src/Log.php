@@ -156,6 +156,7 @@ class Log extends Definition
 
         // Lvd.
         $contextHash = null;
+        $level       = strtolower($level);
 
         // Convert message to final string.
         if (is_scalar($message) === false
@@ -173,7 +174,7 @@ class Log extends Definition
 
         // Check if this is just buffered.
         $thisIsBuffer = false;
-        if (substr($level, -6) === 'Buffer') {
+        if (substr($level, -6) === 'buffer') {
             $level        = substr($level, 0, -6);
             $thisIsBuffer = true;
         }
@@ -204,9 +205,12 @@ class Log extends Definition
     public function logCounter(string $level, int $current, int $target, string $prefix) : void
     {
 
+        // Lvd.
+        $level = strtolower($level);
+
         // Count level.
         if ($current !== $target) {
-            $level .= 'Buffer';
+            $level .= 'buffer';
         }
 
         // Count message.

@@ -1,7 +1,7 @@
 {
   "name": "przeslijmi/silogger",
   "description": "PHP library for log (meets PSR-3).",
-  "version": "v1.2.3",
+  "version": "v1.2.4",
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -23,7 +23,7 @@
   "autoload": {
     "psr-4": {
       "Przeslijmi\\Silogger\\": "src/",
-      "Przeslijmi\\Sexceptions\\": "../../przeslijmi/sexceptions/src/"
+      "Przeslijmi\\Sexceptions\\": "vendor/przeslijmi/sexceptions/src/"
     }
   }
 }
