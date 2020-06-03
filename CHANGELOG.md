@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2.5 - 2020-06-03
+
+- Updated `composer.json` - Sexceptions is no longer needed.
+- Changed constructor of `Log` - uses `default` standard name.
+
 ## v1.2.4 - 2020-04-15
 
 - Updated `composer.json`.

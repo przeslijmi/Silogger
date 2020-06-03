@@ -34,7 +34,7 @@ abstract class Definition
      *
      * @since v1.0
      */
-    public function __construct(string $name)
+    public function __construct(string $name = 'default')
     {
 
         $this->name = $name;
