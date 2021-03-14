@@ -2,6 +2,7 @@
 
 namespace Przeslijmi\Silogger\Usage;
 
+use Przeslijmi\Silogger\LocaleTranslator;
 use Przeslijmi\Silogger\Log;
 use Przeslijmi\Silogger\Usage;
 
@@ -37,6 +38,9 @@ class CliUsage extends Usage
         // Lvd.
         $color   = constant('\Przeslijmi\Silogger\Usage\CliUsage::' . strtoupper($this->level) . '_COLOR');
         $showLog = '';
+
+        // Translate.
+        $this->message = ( new LocaleTranslator($this->message) )->translate('en:us');
 
         // Define log to be showed.
         $showLog .= "\e[" . $color . 'm';

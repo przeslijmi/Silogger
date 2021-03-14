@@ -12,6 +12,11 @@ use Przeslijmi\Silogger\Usage;
 class FileUsage extends Usage
 {
 
+    private $convert = [
+        'from' => [ PHP_EOL, "\r", "\n" ],
+        'to' => [ '<:n>', '<:r>', '<:n>' ],
+    ];
+
     /**
      * Called by Usage constructor - have to make job done.
      *
@@ -50,6 +55,7 @@ class FileUsage extends Usage
         // Format.
         $fileUri = $this->format($options['uri']);
         $message = $this->format(trim($options['format']));
+        $message = str_replace($this->convert['from'], $this->convert['to'], $message);
 
         // Save ref file.
         if ($this->contextHash !== null) {
@@ -62,7 +68,7 @@ class FileUsage extends Usage
 
             // Lvd.
             $fileRefUri  = $this->format($options['uriRef']);
-            $messageFull = $message . "\n\n" . var_export($this->context, true);
+            $messageFull = $message . "\n\n" . serialize($this->context);
 
             // Save file.
             $file = fopen($fileRefUri, 'a');

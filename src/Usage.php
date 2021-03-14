@@ -2,6 +2,7 @@
 
 namespace Przeslijmi\Silogger;
 
+use Przeslijmi\Silogger\LocaleTranslator;
 use Przeslijmi\Silogger\Log;
 
 /**
@@ -52,6 +53,8 @@ abstract class Usage
      * @since v1.1
      */
     private $isBuffer = false;
+
+    private $locale;
 
     /**
      * Common creator for usages.
@@ -136,10 +139,34 @@ abstract class Usage
         $txt = str_replace('[LVL]', mb_strtoupper($this->level), $txt);
         $txt = str_replace('[msg]', $this->message, $txt);
         $txt = str_replace('[ref]', $this->contextHash, $txt);
+        $txt = str_replace('[sessid]', session_id(), $txt);
 
         // Others.
         $txt = str_replace('[ip]', ( $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0' ), $txt);
 
         return $txt;
+    }
+
+    public function getMessage() : string
+    {
+
+        return $this->message;
+    }
+
+    public function getLevel() : string
+    {
+
+        return $this->level;
+    }
+
+    public function getLocale() : LocaleTranslator
+    {
+
+        // Create translator if needed.
+        if ($this->locale === null) {
+            $this->locale = new LocaleTranslator($this->message);
+        }
+
+        return $this->locale;
     }
 }

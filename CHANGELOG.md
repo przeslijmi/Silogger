@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.0.rs1 - 2021-03-14
+
+
+
 ## v1.2.5 - 2020-06-03
 
 - Updated `composer.json` - Sexceptions is no longer needed.

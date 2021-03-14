@@ -6,6 +6,7 @@ use Przeslijmi\Silogger\Log\Definition;
 use Przeslijmi\Silogger\Silogger;
 use Przeslijmi\Silogger\Usage\CliUsage;
 use Przeslijmi\Silogger\Usage\FileUsage;
+use Przeslijmi\Silogger\Usage\FlowUsage;
 
 /**
  * Logs application work.
@@ -139,6 +140,15 @@ class Log extends Definition
         self::log('debug', $message, $context);
     }
 
+    public function localeLog(string $level, string $class, string $id, array $fields = [], array $context = []) : void
+    {
+
+        // Convert args.
+        $args = htmlspecialchars((string) json_encode($fields));
+
+        $this->log($level, '<locale class="' . $class . '" id="' . $id . '" args="' . $args . '" />', $context);
+    }
+
     /**
      * Logs any message.
      *
@@ -169,7 +179,7 @@ class Log extends Definition
 
         // Define context.
         if (empty($context) === false) {
-            $contextHash = (string) crc32(microtime() . print_r($context, true));
+            $contextHash = (string) crc32(microtime());
         }
 
         // Check if this is just buffered.
@@ -187,6 +197,11 @@ class Log extends Definition
         }
         if ($this->isFor('file', $level) !== null) {
             $usage = new FileUsage($this, $level, $message, $context, $contextHash);
+            $usage->setIsBuffer($thisIsBuffer);
+            $usage->use();
+        }
+        if ($this->isFor('flow', $level) !== null) {
+            $usage = new FlowUsage($this, $level, $message, $context, $contextHash);
             $usage->setIsBuffer($thisIsBuffer);
             $usage->use();
         }
