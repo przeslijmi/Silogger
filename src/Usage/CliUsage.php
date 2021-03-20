@@ -29,7 +29,6 @@ class CliUsage extends Usage
     /**
      * Called by Usage constructor - have to make job done.
      *
-     * @since  v1.0
      * @return self
      */
     public function use() : self
@@ -39,10 +38,9 @@ class CliUsage extends Usage
         $color   = constant('\Przeslijmi\Silogger\Usage\CliUsage::' . strtoupper($this->level) . '_COLOR');
         $showLog = '';
 
-        // Translate.
-        $this->message = ( new LocaleTranslator($this->message) )->translate('en:us');
-
         // Define log to be showed.
+        // Translation of LogLocale is not done on CliUsage (it was turned on as standard) due to efficiency reasons.
+        // Maybe in future releases there will be found a way to reconcile the parties, but for now it is turned off.
         $showLog .= "\e[" . $color . 'm';
         $showLog .= 'LOG[' . $this->log->getName() . '] ' . str_pad($this->level, 9, ' ', STR_PAD_RIGHT) . ': ';
         $showLog .= $this->message;

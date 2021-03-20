@@ -12,6 +12,11 @@ use Przeslijmi\Silogger\Usage;
 class FileUsage extends Usage
 {
 
+    /**
+     * Automatic message convertors when saving to a file.
+     *
+     * @var array
+     */
     private $convert = [
         'from' => [ PHP_EOL, "\r", "\n" ],
         'to' => [ '<:n>', '<:r>', '<:n>' ],
@@ -20,7 +25,6 @@ class FileUsage extends Usage
     /**
      * Called by Usage constructor - have to make job done.
      *
-     * @since  v1.0
      * @throws Exception When file uri or message format are not defined.
      * @return self
      */

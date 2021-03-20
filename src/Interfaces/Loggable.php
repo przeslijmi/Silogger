@@ -14,7 +14,6 @@ interface Loggable
      * @param string $level   Name of level (see Silogger doc).
      * @param mixed  $message Message contents.
      *
-     * @since  v1.0
      * @return void
      */
     public function log(string $level, $message) : void;

@@ -11,6 +11,13 @@ class Reader
 {
 
     /**
+     * Language to use in locale translation.
+     *
+     * @var string
+     */
+    public $lang = 'en:us';
+
+    /**
      * Reads log from given URI.
      *
      * @param string $uri Uri to read from.
@@ -22,9 +29,12 @@ class Reader
 
         // Lvd.
         $result = [];
+        $logs   = [];
 
         // Get file contents as array of logs.
-        $logs = file($uri);
+        if (file_exists($uri) === true) {
+            $logs = file($uri);
+        }
 
         // Short lane.
         if (empty($logs) === true) {
@@ -39,7 +49,7 @@ class Reader
 
             // Work on message.
             if (isset($rawLog[7]) === true && substr($rawLog[7], 0, 8) === '<locale ') {
-                $rawLog[7] = ( new LocaleTranslator($rawLog[7]) )->translate('pl:pl');
+                $rawLog[7] = ( new LocaleTranslator($rawLog[7]) )->translate($this->lang);
             }
 
             // Add to result.

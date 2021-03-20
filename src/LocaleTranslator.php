@@ -29,7 +29,7 @@ class LocaleTranslator
     /**
      * Setter for language.
      *
-     * @param string $lang Two letter language cod.
+     * @param string $message Original message `<locale .../>` format.
      *
      * @return self
      */
@@ -40,18 +40,22 @@ class LocaleTranslator
         $this->message = $message;
 
         // Regex that message.
-        preg_match('/(<locale)((( )+(class=\\")([a-zA-Z0-9_\\\\]+)("))|(( )+(id=\\")([a-zA-Z0-9_\\\\]+)("))(( )+(args=\\")(.+)(")))+(( )*(\\/>))/', $this->message, $regex);
+        $regex  = '(<locale)((( )+(class=\\")([a-zA-Z0-9_\\\\]+)("))|(( )+(id=\\")([a-zA-Z0-9_\\\\]+)("))';
+        $regex .= '(( )+(args=\\")(.+)(")))+(( )*(\\/>))';
+        preg_match('/' . $regex . '/', $this->message, $regex);
 
         // Parse it.
         $this->parsed = [
             'class' => ( $regex[6] ?? null ),
-            'id' => ( $regex[11] ?? null),
+            'id' => ( $regex[11] ?? null ),
             'args' => json_decode(htmlspecialchars_decode(( $regex[16] ?? '[]' ))),
         ];
     }
 
     /**
      * Logs can have contents of two types.
+     *
+     * @param string $lang Two-letter language code to use on translation.
      *
      * @return string
      */
@@ -77,7 +81,7 @@ class LocaleTranslator
         // Get text.
         $translated = ( $locales[$this->parsed['id']]['txt'] ?? null );
 
-        // If no uri - return message.
+        // If no translation prepared - return original message.
         if ($translated === null) {
             return $this->message;
         }
@@ -90,18 +94,33 @@ class LocaleTranslator
         return $translated;
     }
 
+    /**
+     * Getter for class who called log.
+     *
+     * @return string|null
+     */
     public function getClass() : ?string
     {
 
         return $this->parsed['class'];
     }
 
+    /**
+     * Getter for message identifier of log.
+     *
+     * @return string|null
+     */
     public function getId() : ?string
     {
 
         return $this->parsed['id'];
     }
 
+    /**
+     * Getter for Clid of log (both **cl**ass and message **id**entifier) as an two-elements array.
+     *
+     * @return array
+     */
     public function getClid() : array
     {
 

@@ -49,11 +49,15 @@ abstract class Usage
     /**
      * If this is buffer log or not.
      *
-     * @var   boolean
-     * @since v1.1
+     * @var boolean
      */
     private $isBuffer = false;
 
+    /**
+     * Holds created LocaleTranslator object.
+     *
+     * @var LocaleTranslator
+     */
     private $locale;
 
     /**
@@ -64,8 +68,6 @@ abstract class Usage
      * @param string $message     Contents of message.
      * @param array  $context     Optional, empty array. Extra array information on message.
      * @param string $contextHash Optional, null. Hashed context.
-     *
-     * @since v1.0
      */
     public function __construct(
         Log $log,
@@ -88,7 +90,6 @@ abstract class Usage
      *
      * @param boolean $isBuffer If this is buffer log or not.
      *
-     * @since  v1.1
      * @return self
      */
     public function setIsBuffer(bool $isBuffer) : self
@@ -102,7 +103,6 @@ abstract class Usage
     /**
      * Getter for `isBuffer`.
      *
-     * @since  v1.1
      * @return boolean
      */
     protected function isBuffer() : bool
@@ -116,7 +116,6 @@ abstract class Usage
      *
      * @param string $txt Text to formatted.
      *
-     * @since  v1.0
      * @return Formatted text.
      */
     protected function format(string $txt) : string
@@ -147,18 +146,36 @@ abstract class Usage
         return $txt;
     }
 
+    /**
+     * Getter for message.
+     *
+     * @return string
+     */
     public function getMessage() : string
     {
 
         return $this->message;
     }
 
+    /**
+     * Getter for level.
+     *
+     * @return string
+     */
     public function getLevel() : string
     {
 
         return $this->level;
     }
 
+    /**
+     * Getter for `LocaleTranslator`.
+     *
+     * **BEWARE** Locale translator uses a lot of energy and it is not good to use it for different reasons
+     * other than debugging, exceptions handler or error logging - but not in normal, proper workflow.
+     *
+     * @return LocaleTranslator
+     */
     public function getLocale() : LocaleTranslator
     {
 

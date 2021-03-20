@@ -1,10 +1,14 @@
 <?php declare(strict_types=1);
+
 namespace Przeslijmi\Silogger;
 
 use PHPUnit\Framework\TestCase;
+use Przeslijmi\Silogger\LocaleTranslator;
 use Przeslijmi\Silogger\Log;
 use Przeslijmi\Silogger\Silogger;
 use Przeslijmi\Silogger\Usage\CliUsage;
+use Przeslijmi\Silogger\Usage\FlowUsage;
+use Przeslijmi\Silogger\Usage\FlowUsage\Stack;
 use stdClass;
 
 /**
@@ -212,5 +216,133 @@ final class LogTest extends TestCase
         for ($i = 1; $i <= 5; ++$i) {
             $log->logCounter($method, $i, $count, 'Elements served');
         }
+    }
+
+    /**
+     * Test if logging to flow and reading from stack works.
+     *
+     * @return void
+     */
+    public function testIfFlowLoggingWorks() : void
+    {
+
+        // Clear stack.
+        Stack::clear();
+        Stack::clear();
+
+        // Test.
+        $this->assertEquals(count(Stack::getAll()), 0);
+        $this->assertEquals(Stack::getLast(), null);
+
+        // Lvd.
+        $logger  = 'default';
+        $level   = 'debug';
+        $message = 'Test stack.';
+
+        // Call log.
+        $log = Log::get($logger);
+        $log->log($level, $message);
+
+        // Test.
+        $this->assertEquals(count(Stack::getAll()), 1);
+        $this->assertInstanceOf(FlowUsage::class, Stack::getLast());
+        $this->assertEquals(null, Stack::getLast(1));
+        $this->assertEquals(Stack::getLast(0, 'debug'), Stack::getLast());
+        $this->assertEquals(null, Stack::getLast(0, 'warning'));
+
+        // Check stack.
+        $log = Stack::getLast();
+        $this->assertEquals($message, $log->getMessage());
+        $this->assertEquals($level, $log->getLevel());
+    }
+
+    /**
+     * Test if reading localized message works.
+     *
+     * @return void
+     */
+    public function testIfLocaleReadingWorks() : void
+    {
+
+        // Lvd.
+        $logger  = 'default';
+        $level   = 'debug';
+        $class   = 'Class\Test';
+        $messId  = 'SomeMessageHapened';
+        $fields  = [
+            'A field',
+            'a' => 'B field',
+        ];
+        $expMess = 'Translated message with value `A field` and `B field`.';
+
+        // Clear stack.
+        Stack::clear();
+
+        // Call log.
+        $log = Log::get($logger);
+        $log->localeLog($level, $class, $messId, $fields);
+
+        // Get log.
+        $log = Stack::getLast();
+        $this->assertEquals($level, $log->getLevel());
+        $this->assertTrue(Stack::isErrorIdExisting('SomeMessageHapened'));
+        $this->assertFalse(Stack::isErrorIdExisting('OtherMessage'));
+
+        // Get locale translator.
+        $locale = $log->getLocale();
+
+        // Test.
+        $this->assertEquals($locale->translate('en:us'), $expMess);
+        $this->assertEquals($locale->getClass(), $class);
+        $this->assertEquals($locale->getId(), $messId);
+        $this->assertEquals($locale->getClid(), [ $class, $messId ]);
+    }
+
+    /**
+     * Test if nonlocalized message return unchanged itself instead of throwing.
+     *
+     * @return void
+     */
+    public function testIfTranslationOfNonLocaleWorks() : void
+    {
+
+        // Prepare.
+        $message = 'nonLocaleMessage';
+        $locale  = new LocaleTranslator($message);
+
+        // Test.
+        $this->assertEquals($locale->translate('en:us'), $message);
+    }
+
+    /**
+     * Test if missing language will leave message untranslated instead of throwing.
+     *
+     * @return void
+     */
+    public function testIfTranslationWithMissingLanguageWorks() : void
+    {
+
+        // Prepare.
+        $message = '<locale class="A\B" id="B" args="{}" />';
+        $locale  = new LocaleTranslator($message);
+
+        // Test.
+        $this->assertEquals($locale->translate('xx:xx'), $message);
+    }
+
+    /**
+     * Test id missing locale will leave message untranslated instead of throwing.
+     *
+     * @return void
+     */
+    public function testIfTranslationWithMissingMessageWorks() : void
+    {
+
+        // Prepare.
+        $message = '<locale class="Class\Test" id="B" args="{}" />';
+        $locale  = new LocaleTranslator($message);
+
+        // Test.
+        $this->assertEquals($locale->translate('en:us'), $message);
     }
 }

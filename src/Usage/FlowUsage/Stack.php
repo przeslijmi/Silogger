@@ -5,7 +5,7 @@ namespace Przeslijmi\Silogger\Usage\FlowUsage;
 use Przeslijmi\Silogger\Usage\FlowUsage;
 
 /**
- * Works on FLOW usage of Log message.
+ * This is current stack of logs (kept in memory) - good to use while testing.
  */
 class Stack
 {
@@ -39,11 +39,21 @@ class Stack
         self::$stack[$ssid][] = $log;
     }
 
+    /**
+     * Claers the stack.
+     *
+     * @return void
+     */
     public static function clear() : void
     {
 
         // Lvd.
         $ssid = session_id();
+
+        // Fast track.
+        if (isset(self::$stack[$ssid]) === false || empty(self::$stack[$ssid]) === true) {
+            return;
+        }
 
         // Clear.
         unset(self::$stack[$ssid]);
@@ -53,6 +63,9 @@ class Stack
     /**
      * Returns last element from stack.
      *
+     * @param integer     $laterThan Opt., 0. Ignore first `n` logs on stack.
+     * @param string|null $level     Opt., null. Look only for logs with this level.
+     *
      * @return null|FlowUsage
      */
     public static function getLast(int $laterThan = 0, ?string $level = null) : ?FlowUsage
@@ -61,8 +74,8 @@ class Stack
         // Lvd.
         $ssid = session_id();
 
-        // Return null.
-        if (isset(self::$stack[$ssid]) === false) {
+        // Fast track.
+        if (isset(self::$stack[$ssid]) === false || empty(self::$stack[$ssid]) === true) {
             return null;
         }
 
@@ -86,21 +99,39 @@ class Stack
         return null;
     }
 
+    /**
+     * Getter for whole stack.
+     *
+     * @return FlowUsage[]
+     */
     public static function getAll() : array
     {
 
         // Lvd.
         $ssid = session_id();
 
+        // Fast track.
+        if (isset(self::$stack[$ssid]) === false || empty(self::$stack[$ssid]) === true) {
+            return [];
+        }
+
         return self::$stack[$ssid];
     }
 
+    /**
+     * Checks if given error id exists in any of stacked logs.
+     *
+     * @param string $errorId Id of stacked log (ie. message **id**entifier).
+     *
+     * @return boolean
+     */
     public static function isErrorIdExisting(string $errorId) : bool
     {
 
         // Lvd.
         $ssid = session_id();
 
+        // Look until first has been found.
         foreach (self::$stack[$ssid] as $element) {
             if ($element->getLocale()->getClid()[1] === $errorId) {
                 return true;

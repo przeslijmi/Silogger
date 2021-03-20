@@ -19,7 +19,6 @@ class Log extends Definition
      *
      * @param string $logName Name of Log. If not given - default Log is delivered.
      *
-     * @since  v1.0
      * @return Log
      */
     public static function get(string $logName = 'default') : Log
@@ -140,6 +139,17 @@ class Log extends Definition
         self::log('debug', $message, $context);
     }
 
+    /**
+     * Logs locale message.
+     *
+     * @param string $level   Name of level (see Silogger doc).
+     * @param string $class   Class that called the log.
+     * @param string $id      Identifier of log contents.
+     * @param array  $fields  Fileds to be used to replace with values when showing human message.
+     * @param array  $context Extra information to save to log.
+     *
+     * @return void
+     */
     public function localeLog(string $level, string $class, string $id, array $fields = [], array $context = []) : void
     {
 

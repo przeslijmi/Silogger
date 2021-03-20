@@ -44,7 +44,6 @@ class Silogger
      *
      * @param string $name Optional. Name of Log. If not given - default Log is delivered.
      *
-     * @since  v1.0
      * @return Log
      */
     public static function get(string $name = 'default') : Log
@@ -64,7 +63,6 @@ class Silogger
      * @param string $name       Name of Log.
      * @param array  $definition Definition of Log.
      *
-     * @since  v1.0
      * @return Log
      */
     public static function declare(string $name, array $definition) : Log

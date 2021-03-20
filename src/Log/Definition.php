@@ -31,8 +31,6 @@ abstract class Definition
      * Log definition constructor.
      *
      * @param string $name Name of Log.
-     *
-     * @since v1.0
      */
     public function __construct(string $name = 'default')
     {
@@ -45,7 +43,6 @@ abstract class Definition
      *
      * @param array $definition Definition of this log.
      *
-     * @since  v1.0
      * @return self
      */
     public function setDefinition(array $definition) : self
@@ -59,7 +56,6 @@ abstract class Definition
     /**
      * Getter for name of Log.
      *
-     * @since  v1.0
      * @return string
      */
     public function getName() : string
@@ -71,7 +67,6 @@ abstract class Definition
     /**
      * Getter for definition of Log.
      *
-     * @since  v1.0
      * @return array
      */
     public function getDefinition() : array
@@ -88,7 +83,6 @@ abstract class Definition
      * @param string $usage Name of usage (cli, file, mail, etc.).
      * @param string $level Name of level (see Silogger doc).
      *
-     * @since  v1.0
      * @return null|array
      */
     public function isFor(string $usage, string $level) : ?array
