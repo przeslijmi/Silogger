@@ -140,6 +140,16 @@ abstract class Usage
         $txt = str_replace('[ref]', $this->contextHash, $txt);
         $txt = str_replace('[sessid]', session_id(), $txt);
 
+        // Convert `env` if present.
+        if (strpos($txt, '[env.') !== false) {
+            preg_match_all('/(\[env\.)([A-Z_]*)(\])/', $txt, $found);
+            if (isset($found[0]) === true && count($found[0]) > 0) {
+                for ($f = 0; $f < count($found[0]); ++$f)  {
+                    $txt = str_replace('[env.' . $found[2][$f] . ']', (string) ( $_ENV[$found[2][$f]] ?? '' ), $txt);
+                }
+            }
+        }
+
         // Others.
         $txt = str_replace('[ip]', ( $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0' ), $txt);
 

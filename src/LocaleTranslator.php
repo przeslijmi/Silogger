@@ -50,6 +50,16 @@ class LocaleTranslator
             'id' => ( $regex[11] ?? null ),
             'args' => json_decode(htmlspecialchars_decode(( $regex[16] ?? '[]' ))),
         ];
+
+        // Maybe there is also contextHashId.
+        preg_match('/( \[ref\:)(\d+)(\])$/', $this->message, $regex);
+        if (empty($regex) === false) {
+            if (is_array($this->parsed['args']) === true) {
+                $this->parsed['args']['contextHashId'] = $regex[2];
+            } else {
+                $this->parsed['args']->contextHashId = $regex[2];
+            }
+        }
     }
 
     /**
