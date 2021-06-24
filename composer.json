@@ -1,7 +1,7 @@
 {
   "name": "przeslijmi/silogger",
   "description": "PHP library for log (meets PSR-3).",
-  "version": "v1.3.0.RC2",
+  "version": "v1.3.1",
   "type": "library",
   "license": "MIT",
   "authors": [
