@@ -137,7 +137,7 @@ abstract class Usage
         $txt = str_replace('[lvl]', $this->level, $txt);
         $txt = str_replace('[LVL]', mb_strtoupper($this->level), $txt);
         $txt = str_replace('[msg]', $this->message, $txt);
-        $txt = str_replace('[ref]', $this->contextHash, $txt);
+        $txt = str_replace('[ref]', ( $this->contextHash ?? '' ), $txt);
         $txt = str_replace('[sessid]', session_id(), $txt);
 
         // Convert `env` if present.
